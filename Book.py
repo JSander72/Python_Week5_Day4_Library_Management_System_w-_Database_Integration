@@ -1,4 +1,4 @@
-from Book import Book
+
 from User import User
 from Author import Author
 import library_db_connector as mydb
