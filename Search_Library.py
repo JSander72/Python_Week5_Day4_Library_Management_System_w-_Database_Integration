@@ -25,4 +25,3 @@ def find_top_borrowers(connection):
     """
     cursor.execute(query)
     return cursor.fetchall()
-
