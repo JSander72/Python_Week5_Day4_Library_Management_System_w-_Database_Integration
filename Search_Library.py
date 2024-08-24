@@ -1,11 +1,4 @@
-from Book import Book
-from User import User
-from Author import Author
-import library_db_connector as mydb
-
-books = []
-users = []
-authors = []
+import db_connect as mydb
 
 def find_most_popular_genre(connection):
     cursor = connection.cursor()

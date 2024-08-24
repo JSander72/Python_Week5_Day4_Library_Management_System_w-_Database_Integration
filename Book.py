@@ -1,11 +1,4 @@
-
-from User import User
-from Author import Author
-import library_db_connector as mydb
-
-books = []
-users = []
-authors = []
+import db_connect as mydb
 
 class Book:
     # ... (existing attributes and methods)
@@ -23,7 +16,7 @@ class Book:
         mycursor.execute("SELECT * FROM books")
         result = mycursor.fetchall()
         # Process the result and create Book objects
-        return Book_id
+        return Book
 
 
 class Book:

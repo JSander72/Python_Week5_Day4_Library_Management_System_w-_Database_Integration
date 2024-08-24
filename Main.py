@@ -1,29 +1,26 @@
-from Book import Book
-from User import User
-from Author import Author
-import library_db_connector as mydb
-
-books = []
-users = []
-authors = []
+from enum import member
+import Author
+import Book
+import User
+import db_connect as db
 
 def add_book():
     title = input("Enter book title: ")
-    author_name = input("Enter author name: ")
+    author = input("Enter author name: ")
     genre = input("Enter genre: ")
     publication_date = input("Enter publication date (YYYY-MM-DD): ")
-    books.append(Book(title, author_name, genre, publication_date))
+    Book.append(Book(title, author, genre, publication_date))
     print("Book added successfully!")
 
 def borrow_book():
     title = input("Enter book title to borrow: ")
     user_id = input("Enter your library ID: ")
-    for book in books:
+    for book in book:
         if book.get_title() == title:
             if book.borrow():
-                for user in users:
-                    if user.get_library_id() == user_id:
-                        user.borrow_book(title)
+                for member_id in member:
+                    if member_id.get_library_id() == user_id:
+                        member_id.borrow_book(title)
                         print("Book borrowed successfully!")
                         return
                 print("User not found.")
@@ -36,10 +33,10 @@ def borrow_book():
 def return_book():
     title = input("Enter book title to return: ")
     user_id = input("Enter your library ID: ")
-    for book in books:
+    for book in book:
         if book.get_title() == title:
             if book.return_book():
-                for user in users:
+                for user in Member_id:
                     if user.get_library_id() == user_id:
                         if user.return_book(title):
                             print("Book returned successfully!")
@@ -56,7 +53,7 @@ def return_book():
 
 def search_book():
     title = input("Enter book title to search: ")
-    for book in books:
+    for book in Book:
         if book.get_title() == title:
             print(f"Title: {book.get_title()}")
             print(f"Author: {book.get_author()}")
@@ -67,21 +64,21 @@ def search_book():
     print("Book not found.")
 
 def display_all_books():
-    if not books:
+    if not Book:
         print("No books in the library yet.")
     else:
-        for book in books:
+        for book in Book:
             print(f"Title: {book.get_title()}, Available: {book.is_available()}")
 
 def add_user():
     name = input("Enter user name: ")
     library_id = input("Enter library ID: ")
-    users.append(User(name, library_id))
+    Member_id.append(User(name, library_id))
     print("User added successfully!")
 
 def view_user_details():
     library_id = input("Enter library ID: ")
-    for user in users:
+    for user in Member_id:
         if user.get_library_id() == library_id:
             print(f"Name: {user.get_name()}")
             print(f"Library ID: {user.get_library_id()}")
@@ -89,22 +86,22 @@ def view_user_details():
             return
     print("User not found.")
 
-def display_all_users():
-    if not users:
-        print("No users in the library yet.")
+def display_all_member():
+    if not Member_id:
+        print("No member_id in the library yet.")
     else:
-        for user in users:
+        for user in Member_id:
             print(f"Name: {user.get_name()}, Library ID: {user.get_library_id()}")
 
 def add_author():
     name = input("Enter author name: ")
     biography = input("Enter author biography: ")
-    authors.append(Author(name, biography))
+    Author.append(Author(name, biography))
     print("Author added successfully!")
 
 def view_author_details():
     name = input("Enter author name: ")
-    for author in authors:
+    for author in author:
         if author.get_name() == name:
             print(f"Name: {author.get_name()}")
             print(f"Biography: {author.get_biography()}")
@@ -112,10 +109,10 @@ def view_author_details():
     print("Author not found.")
 
 def display_all_authors():
-    if not authors:
+    if not author:
         print("No authors in the library yet.")
     else:
-        for author in authors:
+        for author in author:
             print(f"Name: {author.get_name()}")
 
 while True:
@@ -160,7 +157,7 @@ while True:
             print("\nUser Operations:")
             print("1. Add a new user")
             print("2. View user details")
-            print("3. Display all users")
+            print("3. Display all member_id")
             print("4. Back to Main Menu")
 
             user_choice = input("Enter your choice: ")
@@ -170,7 +167,7 @@ while True:
             elif user_choice == '2':
                 view_user_details()
             elif user_choice == '3':
-                display_all_users()
+                display_all_member()
             elif user_choice == '4':
                 break
             else:

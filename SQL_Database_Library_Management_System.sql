@@ -1,58 +1,83 @@
-CREATE DATABASE Library_db;
+-- error handling
+DELIMITER $$
 
-create table Books (
-Book_id int primary key,
-Title varchar (255) not null,
-Author varchar (255) not null,
-Published_Year int,
-Genre varchar (50),
-Available_Copies int
-);
+CREATE PROCEDURE CreateLibraryDB()
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        -- Rollback the transaction if an error occurs
+        ROLLBACK;
+        SELECT 'An error occurred, rolling back the transaction.' AS Error;
+    END;
 
-create table Members (
-Member_id int primary key,
-Name varchar (100) not null,
-Email varchar (100) unique,
-Join_Date Date
-);
-
-create table Borrowed_Books (
-Borrow_id int primary key,
-Book_Id int,
-Member_Id int,
-Borrow_Date Date,
-Return_Date Date,
-foreign key (Book_Id) references Books (Book_Id),
-foreign key (Member_Id) references Members (Member_Id)
-);
-
-Insert into Books (
-Book_Id, Title, Author, Published_Year, Genre, Available_Copies) values 
-(00551, 'The_Great_Gatsby', 'F_Scott_Fitzgerald', '19250410', 'Tragedy', '10000'),
-(00552, 'ULYSSES', 'James_Joyce', '19220202', 'Modernist_Novel', '10000'),
-(00553, 'Lolita', 'Vladimir_Nabokov', '19552001', 'Novel', '10000'),
-(00554, 'Brave_New_World', 'Aldous_Huxley', '19320505', 'Science_Fiction_Dystopian_Fiction', '10000'),
-(00555, 'The_Sound_And_The_Fury', 'William_Faulkner', '19290103', 'Southern_Gothic', '10000'),
-(00556, 'Catch22', 'Joseph_Heller', '19611010', 'Dark_Comedy', '10000'),
-(00557, 'The_Grapes_Of_Wrath', 'John_Steinbeck', '19391404', 'Novel', '10000'),
-(00558, 'I_Claudius', 'Robert_Graves', '19340810', 'Historical', '10000'),
-(00559, 'To_The_Lighthouse', 'Virginia_Woolf', '19270505', 'Modernism', '10000'),
-(05510, 'Slaughterhouse_Five', 'Kurt_Vonnegut', '19693103', 'War_Novel', '10000'),
-(05511, 'Invisible_Man', 'Ralph_Ellison', '19521404', 'African_American_Literature', '10000'),
-(05512, 'Native_Son', 'Richard_Wright', '19400103', 'Social_Protest', '10000'),
-(05513, 'USA_Trilogy', 'John_Dos_Passos', '19300405', 'Political_Fiction', '10000'),
-(05514, 'A_Passage_To_India', 'E_M_Forster', '19240406', 'Novel', '10000'),
-(05515, 'Tender_Is_The_Night', 'F_Scott_Fitzgerald', '19341204', 'Tragedy', '10000'),
-(05516, 'Animal_Farm', 'George_Orwell', '19451708', 'Political_Satire', '10000'),
-(05517, 'The_Golden_Bowl', 'Henry_James', '19041011', 'Philosophy', '10000'),
-(05518, 'A_Handful_Of_Dust', 'Evelyn_Waugh', '19340603', 'Fiction', '10000'),
-(05519, 'As_I_Lay_Dying', 'William_Faulkner', '19300302', 'Black_Comedy', '10000'),
-(05520, 'The_Heart_Of_The_Matter', 'Graham_Greene', '19480302', 'Nove', '10000')
-;
-
+    -- Start transaction
+    START TRANSACTION;
 
     
+    CREATE DATABASE IF NOT EXISTS Library_db;
+
+    -- Switch to the new database
+    USE Library_db;
+
+    -- Books table
+    CREATE TABLE IF NOT EXISTS Books (
+        Book_id INT PRIMARY KEY,
+        Title VARCHAR(255) NOT NULL,
+        Author VARCHAR(255) NOT NULL,
+        Published_Year INT,
+        Genre VARCHAR(50),
+        Available_Copies INT
+    );
+
+    -- Members table
+    CREATE TABLE IF NOT EXISTS Members (
+        Member_id INT PRIMARY KEY,
+        Name VARCHAR(100) NOT NULL,
+        Email VARCHAR(100) UNIQUE,
+        Join_Date DATE
+    );
+
+    -- Borrowed_Books table
+    CREATE TABLE IF NOT EXISTS Borrowed_Books (
+        Borrow_id INT PRIMARY KEY,
+        Book_Id INT,
+        Member_Id INT,
+        Borrow_Date DATE,
+        Return_Date DATE,
+        FOREIGN KEY (Book_Id) REFERENCES Books (Book_id),
+        FOREIGN KEY (Member_Id) REFERENCES Members (Member_id)
+    );
+
+    -- Insert data into Books table
+    INSERT INTO Books (Book_Id, Title, Author, Published_Year, Genre, Available_Copies) VALUES 
+    (551, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925, 'Tragedy', 10000),
+    (552, 'Ulysses', 'James Joyce', 1922, 'Modernist Novel', 10000),
+    (553, 'Lolita', 'Vladimir Nabokov', 1955, 'Novel', 10000),
+    (554, 'Brave New World', 'Aldous Huxley', 1932, 'Science Fiction Dystopian Fiction', 10000),
+    (555, 'The Sound and the Fury', 'William Faulkner', 1929, 'Southern Gothic', 10000),
+    (556, 'Catch-22', 'Joseph Heller', 1961, 'Dark Comedy', 10000),
+    (557, 'The Grapes of Wrath', 'John Steinbeck', 1939, 'Novel', 10000),
+    (558, 'I, Claudius', 'Robert Graves', 1934, 'Historical', 10000),
+    (559, 'To the Lighthouse', 'Virginia Woolf', 1927, 'Modernism', 10000),
+    (5510, 'Slaughterhouse-Five', 'Kurt Vonnegut', 1969, 'War Novel', 10000),
+    (5511, 'Invisible Man', 'Ralph Ellison', 1952, 'African American Literature', 10000),
+    (5512, 'Native Son', 'Richard Wright', 1940, 'Social Protest', 10000),
+    (5513, 'USA Trilogy', 'John Dos Passos', 1930, 'Political Fiction', 10000),
+    (5514, 'A Passage to India', 'E. M. Forster', 1924, 'Novel', 10000),
+    (5515, 'Tender is the Night', 'F. Scott Fitzgerald', 1934, 'Tragedy', 10000),
+    (5516, 'Animal Farm', 'George Orwell', 1945, 'Political Satire', 10000),
+    (5517, 'The Golden Bowl', 'Henry James', 1904, 'Philosophy', 10000),
+    (5518, 'A Handful of Dust', 'Evelyn Waugh', 1934, 'Fiction', 10000),
+    (5519, 'As I Lay Dying', 'William Faulkner', 1930, 'Black Comedy', 10000),
+    (5520, 'The Heart of the Matter', 'Graham Greene', 1948, 'Novel', 10000);
+
     
-    
-    
-    
+    COMMIT;
+    SELECT 'Database and tables created successfully, and data inserted.' AS Success;
+
+END$$
+
+DELIMITER ;
+
+
+CALL CreateLibraryDB();

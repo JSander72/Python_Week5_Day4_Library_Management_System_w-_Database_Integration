@@ -1,10 +1,5 @@
-from Book import Book
-from Author import Author
-import library_db_connector as mydb
 
-books = []
-users = []
-authors = []
+import db_connect as mydb
 
 
 class User:
@@ -32,7 +27,7 @@ class User:
         result = mycursor.fetchone()
         if result:
             # Create a User object from the result
-            return user_obj
+            return User_obj
         else:
             return None
 

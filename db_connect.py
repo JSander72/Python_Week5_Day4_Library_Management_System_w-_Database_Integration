@@ -18,13 +18,7 @@ def connect_db():
     host = '127.0.0.1'
     Port = '3306'
     SSL = 'enabled with TLS_AES_128_GCM_SHA256'  
-    connection = mysql.connector.connect(
-        host=host,
-        user=user,
-        password=password,
-        database=db_name,
-    )
-
+    
     
     try: 
         conn= mysql.connector.connect(
