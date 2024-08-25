@@ -1,41 +1,38 @@
 import mysql.connector
 from mysql.connector import Error
 
-def connect_to_db():
-    connection = mysql.connector.connect(
-        host="localhost",
-        user="your_username",
-        password="your_password",
-        database="Library_db"
+db_name = 'library_db'
+host = 'localhost'
+user = 'root'
+password = '12@Wsxdr56'
+
+
+try: 
+    conn = mysql.connector.connect(
+        database = db_name,
+        host = host,
+        user = user,
+        password = password,
+        
+        
     )
-    return connection
+    if conn.is_connected():
+        print("Connections to MySQL databsse successful!")
 
+    cursor = conn.cursor() #creating a cursor to act as a middle man between python and MySQL
 
-def connect_db():
-    db_name = 'library_db'   
-    user = 'root'
-    password = '12@Wsxdr56'
-    host = '127.0.0.1'
-    Port = '3306'
-    SSL = 'enabled with TLS_AES_128_GCM_SHA256'  
-    
-    
-    try: 
-        conn= mysql.connector.connect(
-            database = db_name,
-            user = user,
-            password = password,
-            host = host
-            )
+    quary = "SELECT * FROM customer;"
 
-        if conn.is_connected():
-            print('Connected to MySQL database')
-            return conn
-    
-    except Error as e:
-        print(f"Error{e}")
-        return None
-    
+    cursor.execute(quary)
 
+    for row in cursor.fecthall():
+        print(row)
 
-    
+except Error as e:
+    print("Error while connecting to MySQL", e)
+
+finally:
+    if conn and conn.is_connected():
+        cursor.close()
+        conn.close()
+        print("MySQL connection is closed")
