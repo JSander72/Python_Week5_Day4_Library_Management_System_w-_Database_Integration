@@ -12,24 +12,16 @@ class User:
         mycursor.execute(sql, val)
         mydb.commit()
 
-    @staticmethod
-    def get_all_from_db():
-        mycursor = mydb.cursor()
-        mycursor.execute("SELECT * FROM users")
-        result = mycursor.fetchall()
-        # Process the result and create User objects
-        return users_list
-
-    @staticmethod
-    def get_by_id(user_id):
-        mycursor = mydb.cursor()
-        mycursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
-        result = mycursor.fetchone()
-        if result:
-            # Create a User object from the result
-            return User_obj
-        else:
-            return None
+@staticmethod
+def get_all_from_db():
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT * FROM users")
+    result = mycursor.fetchall()
+    users_list = []
+    for row in result:
+        user = User(row[1], row[2])  # Assuming the columns are in order: id, name, library_id
+        users_list.append(user)
+    return users_list
 
 class User:
     def __init__(self, name, library_id):
@@ -55,3 +47,4 @@ class User:
             return True
         else:
             return False
+        

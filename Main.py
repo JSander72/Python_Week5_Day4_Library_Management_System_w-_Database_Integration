@@ -36,7 +36,7 @@ def return_book():
     for book in book:
         if book.get_title() == title:
             if book.return_book():
-                for user in Member_id:
+                for user in db.Member_id:
                     if user.get_library_id() == user_id:
                         if user.return_book(title):
                             print("Book returned successfully!")
@@ -70,10 +70,11 @@ def display_all_books():
         for book in Book:
             print(f"Title: {book.get_title()}, Available: {book.is_available()}")
 
+Member_id = []  # Initialize Member_id as an empty list
 def add_user():
     name = input("Enter user name: ")
     library_id = input("Enter library ID: ")
-    Member_id.append(User(name, library_id))
+    Member_id.append(User(name, library_id))  # Append User object to Member_id list
     print("User added successfully!")
 
 def view_user_details():
